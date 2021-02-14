@@ -1,24 +1,57 @@
 import avatar from '../images/avatar.jpg'
 import PopupWithForm from '../components/PopupWithForm.js'
 import ImagePopup from '../components/ImagePopup.js';
-// const addBnt = document.querySelector('.profile__btn-add');
+import Card from '../components/Card.js'
+import { useEffect, useState } from 'react';
+import { api } from '../utils/Api.js';
 
 function Main (props) {
+
+  const [userName, setUserName] = useState('');
+  const [userDescription , setUserDescription] = useState();
+  const [userAvatar, setUserAvatar] = useState();
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api.getInitialUser()
+      .then(res => {
+        setUserName(res.name)
+        setUserDescription(res.about)
+        setUserAvatar(res.avatar)
+      })
+    api.getInitialCards()
+      .then(res => {
+        setCards(res);
+      })
+  },[]);
+  // console.log('UserName: ', userName)
+  // console.log('UserAbout: ', userDescription)
+  // console.log('UserAvatar: ', userAvatar)
+  // console.log('CardsArray: ', cards)
+
 
   return(
     <main>
       <section className="profile">
-        <img className="profile__avatar-image" src={avatar} onClick={props.showAvatarEdit} alt="Аватар"/>
+        <img className="profile__avatar-image" src={userAvatar} onClick={props.showAvatarEdit} alt="Аватар"/>
         <div className="profile__info">
           <div className="profile__wrapper">
-            <h1 className="profile__person-name">Жак-Ив Кусто</h1>
+            <h1 className="profile__person-name">{userName}</h1>
             <button type="button" className="profile__btn-edit" onClick={props.showPopupEdit}></button>
           </div>
-          <p className="profile__person-status">Исследователь океана</p>
+          <p className="profile__person-status">{userDescription}</p>
         </div>
         <button className="profile__btn-add"  type="button" onClick={props.showPopupAdd}></button>
       </section>
-      <section className="cards"></section>
+      <section className="cards">
+        {cards.map(item => <Card key={item._id}
+        isOpen={props.showImage}
+        test={props.test}
+        onCardClick={props.handleCardClick}
+        {...item}>
+
+        </Card>)}
+      </section>
 
       <PopupWithForm
       name='popup-add-card'
@@ -65,7 +98,10 @@ function Main (props) {
           <button className="popup__btn-save popup__btn-save_state_valid" type="submit">Да</button>
         </form>
       </PopupWithForm>
-      <ImagePopup />
+
+      <ImagePopup onClose={props.onClose} cardInfo={props.card} cardData={props.cardData}/>
+
+
     </main>
   )
 }
