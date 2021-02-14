@@ -1,12 +1,51 @@
 import Header from '../components/Header.js';
 import Main from '../components/Main.js'
 import Footer from '../components/Footer.js'
+import { useState } from 'react';
 
 function App() {
+
+
+  const [popupAdd, setPopupAdd] = useState(false);
+  const [popupEdit, setPopupEdit] = useState(false);
+  const [avatarEdit, setAvatarEdit] = useState(false);
+
+
+  const showPopupAdd = () => {
+    setPopupAdd(true);
+    console.log('popupAdd state - ', popupAdd)
+  }
+
+  const showPopupEdit = () => {
+    // document.querySelector('.popup-profile').classList.add('popup_active');
+    setPopupEdit(true);
+    console.log('showEditPopup')
+  }
+
+  const showAvatarEdit = () => {
+    // document.querySelector('.popup-profile-edit').classList.add('popup_active');
+    setAvatarEdit(true);
+    console.log('showEditPopup')
+  }
+
+  const closeAllPopups = () => {
+    setPopupAdd(false)
+    setPopupEdit(false)
+    setAvatarEdit(false)
+  }
+
   return (
     <div className='root'>
       <Header />
-      <Main />
+      <Main
+      showPopupAdd={showPopupAdd}
+      showPopupEdit={showPopupEdit}
+      showAvatarEdit={showAvatarEdit}
+      isOpenAdd={popupAdd}
+      isOpenProfileEdit={popupEdit}
+      isOpenAvatarEdit={avatarEdit}
+      onClose={closeAllPopups}/>
+
       <Footer />
       <template id="tempCard">
         <article className="card">
