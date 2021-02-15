@@ -24,11 +24,6 @@ function Main (props) {
         setCards(res);
       })
   },[]);
-  // console.log('UserName: ', userName)
-  // console.log('UserAbout: ', userDescription)
-  // console.log('UserAvatar: ', userAvatar)
-  // console.log('CardsArray: ', cards)
-
 
   return(
     <main>
@@ -46,7 +41,7 @@ function Main (props) {
       <section className="cards">
         {cards.map(item => <Card key={item._id}
         isOpen={props.showImage}
-        test={props.test}
+        // test={props.test}
         onCardClick={props.handleCardClick}
         {...item}>
 

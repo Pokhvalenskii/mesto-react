@@ -19,10 +19,10 @@ function App() {
       name: name})
   }
 
-  console.log('card info: ' ,cardInfo);
-  const test = (param) => {
-    console.log('param', param)
-  }
+  // console.log('card info: ' ,cardInfo);
+  // const test = (param) => {
+  //   // console.log('param', param)
+  // }
 
   const showPopupAdd = () => {
     setPopupAdd(true);
@@ -47,7 +47,7 @@ function App() {
     <div className='root'>
       <Header />
       <Main
-      test={test}
+      // test={test}
       handleCardClick={handleCardClick}
       card={selectedCard}
       cardData={cardInfo}
