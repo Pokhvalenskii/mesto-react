@@ -2,7 +2,7 @@
 
 
 
-class Api {
+class api {
   constructor(date){
     this._urlApi = date.urlApi;
     this._token = date.token; // 8675e632-7ad1-4f28-9202-69cb55994239
@@ -145,10 +145,10 @@ class Api {
   }
 }
 
-export const api = new Api({
+export const Api = new api({
   urlApi: 'https://mesto.nomoreparties.co/v1/',
   token: '8675e632-7ad1-4f28-9202-69cb55994239',
   groupId: 'cohort-19'
 })
 
-export default Api; //Не мог пройти проверку тестами без экспорта класса API(не баг а фича)
+export default api; //Не мог пройти проверку тестами без экспорта класса API(не баг а фича)
