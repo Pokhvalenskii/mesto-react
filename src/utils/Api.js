@@ -150,5 +150,3 @@ export const Api = new api({
   token: '8675e632-7ad1-4f28-9202-69cb55994239',
   groupId: 'cohort-19'
 })
-
-export default api; //Не мог пройти проверку тестами без экспорта класса API(не баг а фича)
