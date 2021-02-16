@@ -4,6 +4,7 @@ import ImagePopup from '../components/ImagePopup.js';
 import Card from '../components/Card.js'
 import { useEffect, useState } from 'react';
 import { api } from '../utils/Api.js';
+import Api from '../utils/Api.js';
 
 function Main (props) {
 
