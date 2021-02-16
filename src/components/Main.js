@@ -28,11 +28,11 @@ function Main (props) {
   return(
     <main>
       <section className="profile">
-        <img className="profile__avatar-image" src={userAvatar} onClick={props.showAvatarEdit} alt="Аватар"/>
+        <img className="profile__avatar-image" src={userAvatar} onClick={props.onEditAvatar} alt="Аватар"/>
         <div className="profile__info">
           <div className="profile__wrapper">
             <h1 className="profile__person-name">{userName}</h1>
-            <button type="button" className="profile__btn-edit" onClick={props.showPopupEdit}></button>
+            <button type="button" className="profile__btn-edit" onClick={props.onEditProfile}></button>
           </div>
           <p className="profile__person-status">{userDescription}</p>
         </div>

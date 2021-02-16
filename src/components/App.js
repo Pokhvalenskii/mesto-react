@@ -7,8 +7,8 @@ function App() {
 
 
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [popupEdit, setPopupEdit] = useState(false);
-  const [avatarEdit, setAvatarEdit] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [cardInfo, setCardInfo] = useState({});
 
@@ -28,18 +28,18 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  const showPopupEdit = () => {
-    setPopupEdit(true);
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
   }
 
-  const showAvatarEdit = () => {
-    setAvatarEdit(true);
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
   }
 
   const closeAllPopups = () => {
     setIsAddPlacePopupOpen(false)
-    setPopupEdit(false)
-    setAvatarEdit(false)
+    setIsEditProfilePopupOpen(false)
+    setIsEditAvatarPopupOpen(false)
     setSelectedCard(false)
   }
 
@@ -53,12 +53,12 @@ function App() {
       cardData={cardInfo}
       // showImage={showImage}
       onAddPlace={handleAddPlaceClick}
-      showPopupEdit={showPopupEdit}
-      showAvatarEdit={showAvatarEdit}
+      onEditProfile={handleEditProfileClick}
+      onEditAvatar={handleEditAvatarClick}
       isOpenImage={selectedCard}
       isOpenAdd={isAddPlacePopupOpen}
-      isOpenProfileEdit={popupEdit}
-      isOpenAvatarEdit={avatarEdit}
+      isOpenProfileEdit={isEditProfilePopupOpen}
+      isOpenAvatarEdit={isEditAvatarPopupOpen}
       onClose={closeAllPopups}/>
       <Footer />
     </div>
