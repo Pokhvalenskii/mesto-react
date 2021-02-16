@@ -36,7 +36,7 @@ function Main (props) {
           </div>
           <p className="profile__person-status">{userDescription}</p>
         </div>
-        <button className="profile__btn-add"  type="button" onClick={props.showPopupAdd}></button>
+        <button className="profile__btn-add"  type="button" onClick={props.onAddPlace}></button>
       </section>
       <section className="cards">
         {cards.map(item => <Card key={item._id}

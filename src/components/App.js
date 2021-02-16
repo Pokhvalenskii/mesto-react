@@ -6,7 +6,7 @@ import { useState } from 'react';
 function App() {
 
 
-  const [popupAdd, setPopupAdd] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [avatarEdit, setAvatarEdit] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
@@ -24,8 +24,8 @@ function App() {
   //   // console.log('param', param)
   // }
 
-  const showPopupAdd = () => {
-    setPopupAdd(true);
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
   }
 
   const showPopupEdit = () => {
@@ -37,7 +37,7 @@ function App() {
   }
 
   const closeAllPopups = () => {
-    setPopupAdd(false)
+    setIsAddPlacePopupOpen(false)
     setPopupEdit(false)
     setAvatarEdit(false)
     setSelectedCard(false)
@@ -52,11 +52,11 @@ function App() {
       card={selectedCard}
       cardData={cardInfo}
       // showImage={showImage}
-      showPopupAdd={showPopupAdd}
+      onAddPlace={handleAddPlaceClick}
       showPopupEdit={showPopupEdit}
       showAvatarEdit={showAvatarEdit}
       isOpenImage={selectedCard}
-      isOpenAdd={popupAdd}
+      isOpenAdd={isAddPlacePopupOpen}
       isOpenProfileEdit={popupEdit}
       isOpenAvatarEdit={avatarEdit}
       onClose={closeAllPopups}/>
