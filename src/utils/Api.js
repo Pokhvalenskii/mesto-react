@@ -2,7 +2,7 @@
 
 
 
-class api {
+export default class Api {
   constructor(date){
     this._urlApi = date.urlApi;
     this._token = date.token; // 8675e632-7ad1-4f28-9202-69cb55994239
@@ -145,7 +145,7 @@ class api {
   }
 }
 
-export const Api = new api({
+export const api = new Api({
   urlApi: 'https://mesto.nomoreparties.co/v1/',
   token: '8675e632-7ad1-4f28-9202-69cb55994239',
   groupId: 'cohort-19'

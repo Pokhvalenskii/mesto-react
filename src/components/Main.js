@@ -3,8 +3,8 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import ImagePopup from '../components/ImagePopup.js';
 import Card from '../components/Card.js'
 import { useEffect, useState } from 'react';
-import { Api } from '../utils/Api.js';
-// import Api from '../utils/Api.js';
+import { api } from '../utils/Api.js';
+import Api from '../utils/Api.js';
 
 function Main (props) {
 
@@ -14,13 +14,13 @@ function Main (props) {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    Api.getInitialUser()
+    api.getInitialUser()
       .then(res => {
         setUserName(res.name)
         setUserDescription(res.about)
         setUserAvatar(res.avatar)
       })
-    Api.getInitialCards()
+    api.getInitialCards()
       .then(res => {
         setCards(res);
       })
