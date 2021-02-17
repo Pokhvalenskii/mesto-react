@@ -1,7 +1,3 @@
-
-
-
-
 class Api {
   constructor(date){
     this._urlApi = date.urlApi;
@@ -152,6 +148,7 @@ const api = new Api({
 })
 
 export default api;
+///test
 
 
 
