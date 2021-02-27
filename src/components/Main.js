@@ -10,24 +10,32 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main (props) {
 
+  function handleCardDelete (card) {
+    api.deleteCard(card._id)
+        .then(() => {
+          console.log('deleted card', card._id)
+          setCards(cards.filter(item => item._id !== card._id))
+        }).catch(error => console.log(`${error}`))
+  }
+
   function handleCardLike(card) {
 
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     console.log('MY CARD: ', isLiked,  card)
-      if(!isLiked) {
-        api.like(card._id)
+    if(!isLiked) {
+      api.like(card._id)
+      .then((newCard) => {
+        const newCards = cards.map((item) => item._id === card._id ? newCard : item);
+        setCards(newCards);
+      }).catch(error => console.log(`${error}`))
+    } else {
+      api.removeLike(card._id)
         .then((newCard) => {
           const newCards = cards.map((item) => item._id === card._id ? newCard : item);
-          setCards(newCards);
-        })
-      } else {
-        api.removeLike(card._id)
-          .then((newCard) => {
-            const newCards = cards.map((item) => item._id === card._id ? newCard : item);
-            setCards(newCards)
-          })
-      }
+          setCards(newCards)
+        }).catch(error => console.log(`${error}`))
+    }
   }
 
   const currentUser = useContext(CurrentUserContext)
@@ -59,6 +67,7 @@ function Main (props) {
         isOpen={props.showImage}
         onCardClick={props.handleCardClick}
         onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
         {...item}/>)
         )}
       </section>
