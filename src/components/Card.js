@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 function Card (props) {
 
   const currentUser = useContext(CurrentUserContext);
-  console.log(props);
+  // console.log(props);
   const isOwn = props.owner._id === currentUser._id;
   const isLiked = props.likes.some(i => i._id === currentUser._id);
   const like = isLiked ? 'card__btn-like_active' : '';
