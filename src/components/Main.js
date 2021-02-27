@@ -12,6 +12,20 @@ function Main (props) {
   const [userAvatar, setUserAvatar] = useState();
   const [cards, setCards] = useState([]);
 
+// ==== NEW === //
+
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getInitialUser()
+      .then(res => {
+        console.log('GET USER: ',res);
+        setCurrentUser(res);
+        // console.log(currentUser);
+      }).catch(error => console.log(`${error}`));
+  }, []);
+//////////////////
+
   useEffect(() => {
     api.getInitialUser()
       .then(res => {
