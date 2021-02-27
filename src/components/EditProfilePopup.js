@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import {} from ''
+
 function EditProfilePopup(props) {
 
-  const [name, setName] = useState();
+  //const [name, setName] = useState();
 
   return (
     <PopupWithForm
