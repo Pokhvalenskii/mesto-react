@@ -10,44 +10,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main (props) {
 
-  function handleCardDelete (card) {
-    api.deleteCard(card._id)
-        .then(() => {
-          console.log('deleted card', card._id)
-          setCards(cards.filter(item => item._id !== card._id))
-        }).catch(error => console.log(`${error}`))
-  }
-
-  function handleCardLike(card) {
-
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    console.log('MY CARD: ', isLiked,  card)
-    if(!isLiked) {
-      api.like(card._id)
-      .then((newCard) => {
-        const newCards = cards.map((item) => item._id === card._id ? newCard : item);
-        setCards(newCards);
-      }).catch(error => console.log(`${error}`))
-    } else {
-      api.removeLike(card._id)
-        .then((newCard) => {
-          const newCards = cards.map((item) => item._id === card._id ? newCard : item);
-          setCards(newCards)
-        }).catch(error => console.log(`${error}`))
-    }
-  }
-
   const currentUser = useContext(CurrentUserContext)
-  // console.log("context: ", currentUser);
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getInitialCards()
-      .then(res => {
-        setCards(res);
-      }).catch(error => console.log(`${error}`))
-  },[]);
 
   return(
     <main>
@@ -63,11 +26,11 @@ function Main (props) {
         <button className="profile__btn-add"  type="button" onClick={props.onAddPlace}></button>
       </section>
       <section className="cards">
-        {cards.map(item => (<Card key={item._id}
+        {props.cards.map(item => (<Card key={item._id}
         isOpen={props.showImage}
         onCardClick={props.handleCardClick}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
+        onCardLike={props.handleCardLike}
+        onCardDelete={props.handleCardDelete}
         {...item}/>)
         )}
       </section>

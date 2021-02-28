@@ -6,16 +6,16 @@ function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext)
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  console.log('CurrentDefault: ', currentUser)
-  console.log('name: ', name)
-  console.log('description: ', description)
+  // console.log('CurrentDefault: ', currentUser)
+  // console.log('name: ', name)
+  // console.log('description: ', description)
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
     // setName(currentUser);
     // setDescription(currentUser);
-    console.log('useEffect: ', currentUser)
+    // console.log('useEffect: ', currentUser)
   }, [currentUser]);
 
   function handleChangeName(e) {
@@ -28,7 +28,7 @@ function EditProfilePopup(props) {
 
   function  handleSubmit (e) {
     e.preventDefault();
-    console.log('submit')
+    // console.log('submit')
     props.onUpdateUser({
       name: name,
       about : description,
