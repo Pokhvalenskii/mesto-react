@@ -6,6 +6,7 @@ import ImagePopup from '../components/ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import api from '../utils/api.js';
 import EditProfilePopup from "./EditProfilePopup.js";
+import EditAvatarPopup from "./EditAvatarPopup.js";
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -16,21 +17,38 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [cardInfo, setCardInfo] = useState({});
+  const [currentUser, setCurrentUser] = useState('');
 
-  // ==== NEW === //
-
-  const [currentUser, setCurrentUser] = useState({});
-
+  console.log('USER CURRENT: ',currentUser);
   useEffect(() => {
-    api.getInitialUser()
-      .then(res => {
-        console.log('GET USER: ',res);
-        setCurrentUser(res);
-        // console.log(currentUser);
-      }).catch(error => console.log(`${error}`));
+    initUser();
   }, []);
 
-  //////////////////
+  function initUser() {
+    api.getInitialUser()
+    .then(res => {
+      console.log('GET USER: ',res);
+      setCurrentUser(res);
+    }).catch(error => console.log(`${error}`));
+  }
+
+  const handleUpdateUser = (data) => {
+    api.editProfile(data.name, data.about)
+      .then((res) => {
+        console.log('RESULT' ,res)
+        setCurrentUser(res)
+        closeAllPopups();
+      }).catch(error => console.log(`${error}`))
+  }
+
+  const handleUpdateAvatar = (url) => {
+    api.editAvatar(url)
+      .then(() => {
+        console.log('Uploaded')
+        closeAllPopups();
+        initUser();
+      }).catch(error => console.log(`${error}`))
+  }
 
   const handleCardClick = (link, name) => {
     setSelectedCard(true);
@@ -82,19 +100,10 @@ function App() {
           </form>
         </PopupWithForm>
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
-        
-        <PopupWithForm
-        name='popup-profile-edit'
-        title='Обновить аватар'
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}>
-          <form className="popup__form">
-            <input id="add-urle" className="popup__input popup__input_place_up" type="url" name="ImageLink" placeholder="Ссылка на картинку" required/>
-            <span id="add-urle-error" className="error"></span>
-            <button className="popup__btn-save popup__btn-save_state_valid" type="submit">Да</button>
-          </form>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} updateAvatar={handleUpdateAvatar}/>
+
+
         <PopupWithForm name='popup-delete-card' title='Вы уверены?'>
           <form className="popup__form">
             <button className="popup__btn-save popup__btn-save_state_valid" type="submit">Да</button>
