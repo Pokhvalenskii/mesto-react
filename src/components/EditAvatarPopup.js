@@ -4,17 +4,9 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 
 function EditAvatarPopup(props) {
-
-  // const [urlAvatar, setUrlAvatar] = useState('');
   const urlRef = useRef();
-  // console.log(urlAvatar);
-  // function handleInputChange() {
-  //   console.log(urlRef.current.value)
-  // }
-
   function handleSubmit(e) {
     e.preventDefault();
-    // setUrlAvatar(urlRef.current.value);
     props.updateAvatar(urlRef.current.value);
   }
 

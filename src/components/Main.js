@@ -1,15 +1,8 @@
-import avatar from '../images/avatar.jpg'
-// import PopupWithForm from '../components/PopupWithForm.js'
-// import ImagePopup from '../components/ImagePopup.js';
 import Card from '../components/Card.js'
-import { useEffect, useState, useContext } from 'react';
-import api from '../utils/api.js';
+import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
-
-
 function Main (props) {
-
   const currentUser = useContext(CurrentUserContext)
 
   return(

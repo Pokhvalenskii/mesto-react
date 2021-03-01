@@ -1,5 +1,5 @@
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 
 function Card (props) {
 

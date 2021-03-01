@@ -11,8 +11,6 @@ import AddPlacePopup from './AddPlacePopup.js';
 import { useState, useEffect } from 'react';
 
 function App() {
-
-
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -20,7 +18,6 @@ function App() {
   const [cardInfo, setCardInfo] = useState({});
   const [currentUser, setCurrentUser] = useState('');
 
-  // console.log('USER CURRENT: ',currentUser);
   useEffect(() => {
     initUser();
   }, []);
@@ -28,7 +25,6 @@ function App() {
   function initUser() {
     api.getInitialUser()
     .then(res => {
-      // console.log('GET USER: ',res);
       setCurrentUser(res);
     }).catch(error => console.log(`${error}`));
   }
@@ -36,7 +32,6 @@ function App() {
   const handleUpdateUser = (data) => {
     api.editProfile(data.name, data.about)
       .then((res) => {
-        // console.log('RESULT' ,res)
         setCurrentUser(res)
         closeAllPopups();
       }).catch(error => console.log(`${error}`))
@@ -45,7 +40,6 @@ function App() {
   const handleUpdateAvatar = (url) => {
     api.editAvatar(url)
       .then(() => {
-        // console.log('Uploaded')
         closeAllPopups();
         initUser();
       }).catch(error => console.log(`${error}`))
@@ -82,7 +76,6 @@ function App() {
   function handleCardDelete (card) {
     api.deleteCard(card._id)
         .then(() => {
-          // console.log('deleted card', card._id)
           setCards(cards.filter(item => item._id !== card._id))
         }).catch(error => console.log(`${error}`))
   }
@@ -90,7 +83,6 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    // console.log('MY CARD: ', isLiked,  card)
     if(!isLiked) {
       api.like(card._id)
       .then((newCard) => {
@@ -126,9 +118,6 @@ function App() {
         closeAllPopups();
       }).catch(error => console.log(`${error}`))
   }
-
-  /////////////////////////////////////////////////
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
