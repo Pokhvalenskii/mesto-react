@@ -16,18 +16,16 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [cardInfo, setCardInfo] = useState({});
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    initUser();
-  }, []);
-
-  function initUser() {
-    api.getInitialUser()
-    .then(res => {
-      setCurrentUser(res);
+    Promise.all([api.getInitialUser(), api.getInitialCards()])
+    .then(value => {
+      setCurrentUser(value[0])
+      setCards(value[1])
     }).catch(error => console.log(`${error}`));
-  }
+  }, []);
 
   const handleUpdateUser = (data) => {
     api.editProfile(data.name, data.about)
@@ -39,9 +37,10 @@ function App() {
 
   const handleUpdateAvatar = (url) => {
     api.editAvatar(url)
-      .then(() => {
+      .then((res) => {
         closeAllPopups();
-        initUser();
+        // console.log('RES', res)
+        setCurrentUser(res);
       }).catch(error => console.log(`${error}`))
   }
 
@@ -98,23 +97,10 @@ function App() {
     }
   }
 
-  const [cards, setCards] = useState([]);
-
-  function initCards() {
-    api.getInitialCards()
-      .then(res => {
-        setCards(res);
-      }).catch(error => console.log(`${error}`))
-  }
-
-  useEffect(() => {
-    initCards();
-  },[]);
-
   function handleAddCard(card) {
     api.addCard(card.name, card.link)
-      .then(() => {
-        initCards();
+      .then((res) => {
+        setCards([res, ...cards])
         closeAllPopups();
       }).catch(error => console.log(`${error}`))
   }
@@ -136,11 +122,6 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} updateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} handleAddCard={handleAddCard}/>
-        <PopupWithForm name='popup-delete-card' title='Вы уверены?'>
-          <form className="popup__form">
-            <button className="popup__btn-save popup__btn-save_state_valid" type="submit">Да</button>
-          </form>
-        </PopupWithForm>
         <ImagePopup onClose={closeAllPopups} isOpen={selectedCard} cardData={cardInfo}/>
         <Footer />
       </div>
