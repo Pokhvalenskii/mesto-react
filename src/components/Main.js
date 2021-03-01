@@ -8,7 +8,10 @@ function Main (props) {
   return(
     <main>
       <section className="profile">
-        <img className="profile__avatar-image" src={currentUser.avatar} onClick={props.onEditAvatar} alt="Аватар"/>
+        <div className="profile__avatar-wrapper">
+          <div className="profile__avatar-overlay" onClick={props.onEditAvatar}></div>
+          <img className="profile__avatar-image" src={currentUser.avatar} alt="Аватар"/>
+        </div>
         <div className="profile__info">
           <div className="profile__wrapper">
             <h1 className="profile__person-name">{currentUser.name}</h1>

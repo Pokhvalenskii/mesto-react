@@ -39,6 +39,8 @@ code {
 @import url(./blocks/profile/__person-status/profile__person-status.css);
 @import url(./blocks/profile/__btn-edit/profile__btn-edit.css);
 @import url(./blocks/profile/__btn-add/profile__btn-add.css);
+@import url(./blocks/profile/__avatar-wrapper/profile__avatar-wrapper.css);
+@import url(./blocks/profile/__avatar-overlay/profile__avatar-overlay.css);
 
 /* Место под карточки */
 @import url(./blocks/cards/cards.css);
