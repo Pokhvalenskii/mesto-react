@@ -5,6 +5,12 @@ class Api {
     this._groupId = date.groupId; // cohort-19
   }
 
+  _checkRes(res){
+    if(res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
 
   getInitialCards() {
     return fetch(`${this._urlApi}${this._groupId}/cards`, {
@@ -12,13 +18,7 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => {
-        if(res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   getInitialUser() {
@@ -27,13 +27,7 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   editProfile(name, status) {
@@ -48,13 +42,7 @@ class Api {
         about: status
       })
     })
-      .then(res => {
-        if(res.ok){
-          return res.json()
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   addCard(name, link) {
@@ -69,12 +57,7 @@ class Api {
         link: link,
       })
     })
-      .then(res => {
-        if(res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   deleteCard(cardId) {
@@ -84,12 +67,7 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   like(cardId) {
@@ -99,12 +77,7 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
   removeLike(cardId) {
     return fetch(`${this._urlApi}${this._groupId}/cards/likes/${cardId}`, {
@@ -113,12 +86,7 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 
   editAvatar(linkAvatar) {
@@ -132,12 +100,7 @@ class Api {
         avatar: linkAvatar,
       })
     })
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`)
-      }).catch(error => console.log(`${error}`));
+      .then(this._checkRes).catch(error => console.log(`${error}`));
   }
 }
 
