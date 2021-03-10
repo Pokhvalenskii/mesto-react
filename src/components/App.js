@@ -7,20 +7,25 @@ import api from '../utils/api.js';
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from './AddPlacePopup.js';
-import { useState, useEffect } from 'react';
-import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Route, Switch, Redirect, BrowserRouter, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute.js';
 
 import Login from './Login.js';
 import Register from './Register.js';
-
-
-
+import PopupResponse from './PopupResponse.js';
+import * as auth from './Auth.js';
 
 function App() {
+  const history = useHistory();
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  const [isSuccessPopup, setIsSuccessPopup] = useState(false)
+  const [isFailPopup, setIsFailPopup] = useState(false)
+
+
   const [selectedCard, setSelectedCard] = useState(false);
   const [cardInfo, setCardInfo] = useState({});
   const [currentUser, setCurrentUser] = useState({});
@@ -71,10 +76,12 @@ function App() {
   }
 
   const closeAllPopups = () => {
-    setIsAddPlacePopupOpen(false)
-    setIsEditProfilePopupOpen(false)
-    setIsEditAvatarPopupOpen(false)
-    setSelectedCard(false)
+    setIsAddPlacePopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setSelectedCard(false);
+    setIsFailPopup(false)
+    setIsSuccessPopup(false);
   }
 
   //////////////////// CARDS //////////////////////
@@ -111,15 +118,86 @@ function App() {
         closeAllPopups();
       }).catch(error => console.log(`${error}`))
   }
-  const loggedIn = false;
+
+  //////////////////////////////////////////
+  const initialData = 'email';
+
+  const [userEmail, setUserEmail] = useState('email');
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  function handleRegister(email, password) {
+    auth.register(email, password)
+      .then(res => {
+        // console.log('RES: ', res)
+        setUserEmail(email);
+        setIsSuccessPopup(true)
+      })
+  }
+  function handleAuthorize(email, password) {
+    return auth.authorize(email, password)
+      .then(res => {
+        // console.log('RES authorize: ', res.token)
+        setLoggedIn(true);
+        setUserEmail(email);
+        localStorage.setItem('jwt', res.token);
+        // console.log('local storage ', localStorage.getItem('jwt'))
+      }).catch(() => {
+        setIsFailPopup(true);
+      })
+  }
+
+
+  // function handleLoginError() {
+  //   setIsLoginErrorPopup(true);
+  // }
+
+  const checkLoggedIn = useCallback(() => {
+    const jwt = localStorage.getItem('jwt')
+    if(jwt) {
+      auth.validityJWT(jwt)
+        .then(res => {
+          setLoggedIn(true);
+          setUserEmail(res.data.email)
+          history.push('/');
+        })
+    }
+  }, [history])
+
+  useEffect(() => {
+    checkLoggedIn();
+  }, [checkLoggedIn])
+
+
+  function logout() {
+    localStorage.removeItem('jwt');
+    setUserEmail(initialData);
+    setLoggedIn(false);
+    history.push('/')
+  }
 
   return (
-    <BrowserRouter>
       <CurrentUserContext.Provider value={currentUser}>
         <Switch>
-          <ProtectedRoute exact path='/' loggedIn={loggedIn}>
+          <Route path='/sign-in'>
+            <Login handleAuthorize={handleAuthorize}/>
+            <PopupResponse isOpen={isFailPopup} onClose={closeAllPopups}
+            name='popup-response'
+            title='Что-то пошло не так!
+            Попробуйте ещё раз.'
+            image='fail'/>
+          </Route>
+          <Route path='/sign-up'>
+            <Register handleRegister={handleRegister}/>
+            <PopupResponse isOpen={isSuccessPopup} onClose={closeAllPopups}
+            name='popup-response'
+            title='Вы успешно зарегистрировались!'
+            image='success'/>
+          </Route>
+
+
+          <ProtectedRoute path='/' loggedIn={loggedIn} testProps={userEmail}>
             <div className='root'>
-              <Header />
+              <Header userEmail={userEmail} logout={logout}/>
               <Main
               cards={cards}
               handleCardLike={handleCardLike}
@@ -136,11 +214,9 @@ function App() {
               <Footer />
             </div>
           </ProtectedRoute>
-          <Route path='/sign-in'><Register /></Route>
-          <Route path='/sign-up'><Login /></Route>
+
         </Switch>
       </CurrentUserContext.Provider>
-    </BrowserRouter>
   );
 }
 

@@ -34,7 +34,7 @@ class Api {
     return fetch(`${this._urlApi}${this._groupId}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: this._token, //8675e632-7ad1-4f28-9202-69cb55994239
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
