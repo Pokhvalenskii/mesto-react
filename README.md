@@ -16,6 +16,6 @@
 ## link
 https://pokhvalenskii.github.io/mesto/index.html
 
-#UPD:
+## UPD:
   Проект перенесен на React
 
