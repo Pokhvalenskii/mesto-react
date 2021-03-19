@@ -12,10 +12,10 @@
 1. HTML
 2. CSS
 3. JavaScript
+4. React
 
 ## link
 https://pokhvalenskii.github.io/mesto/index.html
 
-## UPD:
-  Проект перенесен на React
+## UPD: Проект перенесен на React
 
